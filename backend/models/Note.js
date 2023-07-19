@@ -2,7 +2,11 @@ const mongoose=require('mongoose')
 
 
 const NoteSchema=new mongoose.Schema({
-    name:{
+    user:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'user'
+    },
+    title:{
         type:String,
         required:true
     },

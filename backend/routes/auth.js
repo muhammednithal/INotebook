@@ -31,7 +31,7 @@ router.post(
     // Validate password
     body("password")
       .isLength({ min: 5 })
-      .withMessage("Password must be at least 5 characters"),
+      .withMessage("Password must be at least 5 characters")
   ],
   async (req, res) => {
     // Check for validation errors
