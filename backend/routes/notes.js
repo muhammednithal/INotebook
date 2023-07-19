@@ -54,7 +54,7 @@ router.post(
   }
 );
 
-//ROUTE 3: Update an existing Note :POST "/api/auth/updatenote". login required
+//ROUTE 3: Update an existing Note :PUT "/api/auth/updatenote". login required
 router.put(
   "/updatenote/:id",
   fetchUser,
@@ -110,4 +110,24 @@ router.put(
     }
   }
 );
+
+//ROUTE 4: Delete an existing Note :DELETE "/api/auth/deletnote". login required
+router.delete("/deletenote/:id", fetchUser, async (req, res) => {
+  try {
+    //find the note to be deleted and delete it
+    let note = await Note.findById(req.params.id);
+    if (!note) {
+      res.status(404).send("Not Found");
+    }
+    //Allow deletion if  user owns this note
+    if (note.user.toString() !== req.user.id) {
+      res.status(401).send("Not Allowed");
+    }
+    note = await Note.findByIdAndDelete(req.params.id);
+    res.json({ sucess: "note has been deleted", note: note });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("internal server error");
+  }
+});
 module.exports = router;
