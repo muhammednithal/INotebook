@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 
 
-const NotesSchema=new mongoose.Schema({
+const NoteSchema=new mongoose.Schema({
     name:{
         type:String,
         required:true
@@ -21,4 +21,4 @@ const NotesSchema=new mongoose.Schema({
     }
 })
 
-module.exports=mongoose.model("notes",NotesSchema)
+module.exports=mongoose.model("note",NoteSchema)
