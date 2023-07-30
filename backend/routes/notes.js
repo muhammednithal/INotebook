@@ -27,7 +27,7 @@ router.post(
 
     // Validate password
     body("description")
-      .isLength({ min: 5 })
+      .isLength({ min: 3 })
       .withMessage("Description must be at least 5 characters"),
   ],
   async (req, res) => {
@@ -66,7 +66,7 @@ router.put(
 
     // Validate password
     body("description")
-      .isLength({ min: 5 })
+      .isLength({ min: 3})
       .withMessage("Description must be at least 5 characters"),
   ],
   async (req, res) => {
