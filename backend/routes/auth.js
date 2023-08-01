@@ -34,10 +34,11 @@ router.post(
       .withMessage("Password must be at least 5 characters")
   ],
   async (req, res) => {
+    let success=false
     // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success,errors: errors.array() });
     }
     try {
       const salt = await bcrypt.genSalt(10);
@@ -53,7 +54,8 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json(authToken);
+      success=true
+      res.json({success,authToken});
     } catch (error) {
       console.error(error.message);
       res.status(500).send("internal server error");
@@ -77,23 +79,26 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     const { email, password } = req.body;
+    let success=false
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ error: "invalid credentials" });
+        return res.status(400).json({success, error: "invalid credentials" });
       }
 
       const passwordCompare = await bcrypt.compare(password, user.password);
       if (!passwordCompare) {
-        return res.status(400).json({ error: "invalid credentials" });
+        return res.status(400).json({ success,error: "invalid credentials" });
       }
       const data = {
         user: {
           id: user.id,
         },
       };
+      success=true
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json(authToken);
+      res.json({success,authToken}
+        );
     } catch (error) {
       console.error(error.message);
       res.status(500).send("internal server error");
@@ -101,7 +106,7 @@ router.post(
   }
 );
 
-//ROUTE 2: Get logged in user details using:POSt "/api/auth/getuser" . login required
+//ROUTE 3: Get logged in user details using:POSt "/api/auth/getuser" . login required
 router.get("/getuser", fetchUser, async (req, res) => {
   try {
     const userId = req.user.id;
