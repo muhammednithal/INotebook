@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import noteContext from "../context/notes/noteContext";
 import NoteItem from "./NoteItem";
 import Addnote from "./Addnote";
-const Notes = () => {
+import { useNavigate } from 'react-router-dom';
+const Notes = (props) => {
   const context = useContext(noteContext);
   const { notes, getNotes,editNote } = context;
   const [input, setinput] = useState({
@@ -12,7 +13,7 @@ const Notes = () => {
     id:null
   });
   useEffect(() => {
-    getNotes();
+      getNotes();
     // eslint-disable-next-line
   }, []);
   const ref = useRef(null);  
@@ -30,14 +31,14 @@ const Notes = () => {
   const handleonclick = (e) => {
   refclose.current.click()
      editNote(input)
-    console.log("updateaan mwone",input);
+     props.showalert("success","updated successfully")
   };
   const handleonchange = (e) => {
     setinput({ ...input, [e.target.name]: e.target.value });
   };
   return (
     <>
-      <Addnote />
+      <Addnote showalert={props.showalert} />
 
       <button
         type="button"
@@ -139,7 +140,7 @@ const Notes = () => {
         {notes.length===0 && <div className="container mx-3">no notes to display</div>}
         {notes.map((note) => {
           return (
-            <NoteItem note={note} key={note._id} updateNote={updateNote} />
+            <NoteItem note={note} key={note._id} updateNote={updateNote} showalert={props.showalert} />
           );
         })}
       </div>

@@ -1,4 +1,5 @@
 import "./App.css";
+import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -8,18 +9,28 @@ import Alert from "./components/Alert";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 function App() {
+  const [alert,setalert]=useState(null)
+  const showalert=(typeofalert,messsage)=>{
+    setalert({
+      type:typeofalert,
+      msg:messsage
+    })
+    setTimeout(() => {
+      setalert(null)
+    }, 1500);
+  }
   return (
     <>
       <NoteState>
         <Router>
           <Navbar />
-          <Alert msg={"just"}/>
+          <Alert alert={alert}/>
           <div className="container">
             <Routes>
-              <Route exact path="/" element={<Home />} />
+              <Route exact path="/" element={<Home  showalert={showalert}/>} />
               <Route exact path="/about" element={<About />} />
-              <Route exact path="/login" element={<Login/>} />
-              <Route exact path="/signup" element={<SignUp/>} />
+              <Route exact path="/login" element={<Login showalert={showalert}/>} />
+              <Route exact path="/signup" element={<SignUp showalert={showalert}/>} />
             </Routes>
           </div>
         </Router>

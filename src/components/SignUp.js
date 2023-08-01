@@ -1,7 +1,7 @@
 import React,{useState}from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const SignUp = () => {
+const SignUp = (props) => {
   const [credential, setcredential] = useState({
    name:"",
     email:"",
@@ -26,7 +26,7 @@ const response = await fetch(`http://localhost:5000/api/auth/createuser`,{
   if(json.success)
     localStorage.setItem('token' , json.authtoken);
     navigate("/")
-  
+    props.showalert("success","sucessfully created")
 
 console.log(json);
 }

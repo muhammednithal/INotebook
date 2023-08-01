@@ -14,7 +14,7 @@ const fetchUser = async (req, res, next) => {
     req.user = data.user;
     next();
   } catch (error) {
-    res.status(401).send({ error: "please authenticate using valid token" });
+    res.status(401).send({ error: "not verifying" });
   }
 };
 
