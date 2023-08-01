@@ -53,9 +53,9 @@ router.post(
           id: user.id,
         },
       };
-      const authToken = jwt.sign(data, JWT_SECRET);
+      const authtoken = jwt.sign(data, JWT_SECRET);
       success=true
-      res.json({success,authToken});
+      res.json({success,authtoken});
     } catch (error) {
       console.error(error.message);
       res.status(500).send("internal server error");
@@ -96,8 +96,8 @@ router.post(
         },
       };
       success=true
-      const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({success,authToken}
+      const authtoken = jwt.sign(data, JWT_SECRET);
+      res.json({success,authtoken}
         );
     } catch (error) {
       console.error(error.message);

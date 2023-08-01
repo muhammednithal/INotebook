@@ -5,6 +5,7 @@ import Addnote from "./Addnote";
 import { useNavigate } from 'react-router-dom';
 const Notes = (props) => {
   const context = useContext(noteContext);
+  const navigate = useNavigate();
   const { notes, getNotes,editNote } = context;
   const [input, setinput] = useState({
     title: "",
@@ -13,7 +14,14 @@ const Notes = (props) => {
     id:null
   });
   useEffect(() => {
+    if(localStorage.getItem('token'))
+    {
       getNotes();
+    }else
+    {
+      navigate("/login")
+    }
+      
     // eslint-disable-next-line
   }, []);
   const ref = useRef(null);  
